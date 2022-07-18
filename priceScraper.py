@@ -4,8 +4,6 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import re
-from sys import argv
 
 
 # Use this when debugging in IDE
@@ -30,13 +28,13 @@ def toggle_search_bar_and_search(search_string : str):
     time.sleep(0.5)
     input.send_keys(Keys.RETURN)
 
+
 def filter_goods_by_brand():
     WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, "responsive-filter-button")))
     driver.find_element(By.CLASS_NAME, "responsive-filter-button").click()
     WebDriverWait(driver, delay).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "sort-menu__button ")))
     data_filters = driver.find_elements(By.CLASS_NAME, "sort-menu__button ")
     data_filters[0].click()
-
 
     # Get sort menu
     WebDriverWait(driver, delay).\
@@ -64,6 +62,7 @@ def filter_goods_by_brand():
     for i in range(len(text_results)):
         if text_results[i] == chosen_brand:
             results[i].click()
+
 
 def gather_price_info():
 
@@ -105,7 +104,6 @@ def gather_price_info():
         driver.quit()
         print("No elements in articles list")
 
-
     prices = []
     for el in articles:
         print(el.text)
@@ -122,6 +120,7 @@ def gather_price_info():
 
     return prices
 
+
 def avg_price(numbers):
     count = 0
     total = 0
@@ -129,6 +128,7 @@ def avg_price(numbers):
         total += number
         count += 1
     return round((total / count), 2)
+
 
 def analyze_product_prices(prices):
     float_price_list = []
@@ -150,6 +150,7 @@ def analyze_product_prices(prices):
     print("Average price")
     print(average_price)
 
+
 def main():
     try:
         toggle_search_bar_and_search(search_matter)
@@ -162,6 +163,7 @@ def main():
         print("\n\n\n")
     finally:
         driver.quit()
+
 
 if __name__ == '__main__':
     main()
